@@ -7,7 +7,7 @@
 
 using namespace std;
 int T;
-int fibo[50] = { 0,1, };	// 피보나치 수열
+int fibo[41] = { 0,1, };	// 피보나치 수열
 
 int fibonacci(int n) {
 	if (n == 0 || n == 1) {
