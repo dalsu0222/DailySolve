@@ -11,24 +11,22 @@ int main()
 {
 	cin >> n >> k;
 	
-	int rx = n / 2, ry = n / 2;	// 찾고자 하는 수의 좌표 값
-	int x = n / 2, y = n / 2;	// 직전 좌표 값
+	int rx = n / 2, ry = n / 2;		// 찾고자 하는 좌표
+	int x = n / 2, y = n / 2;	// 좌표
 	map[x][y] = 1;
 	int num = 2;
 	int length = 1;
 	while (num <= n * n) {
-		
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < length; j++) {
-				int nx = x + dx[dir];
-				int ny = y + dy[dir];
-				map[nx][ny] = num;
+				x = x + dx[dir];
+				y = y + dy[dir];
+				map[x][y] = num;
 				if (num == k) {	// 찾고자 하는 좌표를 찾았다면, 위치 저장
-					rx = nx;
-					ry = ny;
+					rx = x;
+					ry = y;
 				}
 				num++;
-				x = nx;	y = ny;	// 직전 자리의 좌표
 				if (num > n * n)		// 종료 조건
 					break;
 			}
