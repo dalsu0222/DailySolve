@@ -1,19 +1,4 @@
 function solution(arr) {
-    if(arr.length == 1) // 리턴하려는 배열이 빈 배열인 경우
-        return [-1];
-    
-    var min_n = 9999;   // 임의의 큰 값
-    const newarr = [];
-    for(var i=0 ; i<arr.length ; i++){
-        if(min_n > arr[i]){ // 최솟값 찾기
-            min_n = arr[i];
-        }
-    }
-    for(var i=0 ; i<arr.length ; i++){
-        if(arr[i] !== min_n){       // 찾은 최솟값 제외하고 배열 다시 만들기
-            newarr.push(arr[i]);
-        }
-    }
-    return newarr;
-    
+    const min_n = Math.min(...arr); // Math.min() : 배열에서 최솟값 반환
+    return arr.length !== 1 ? arr.filter(n => n !== min_n) : [-1];  // filter이용하여 조건에 맞지않는값 제외하고 출력
 }
