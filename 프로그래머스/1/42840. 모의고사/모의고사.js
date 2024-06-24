@@ -1,4 +1,4 @@
-var index = 0;  // arr1,2,3 을 순회하는 인덱스
+var index = 0; // arr1,2,3 을 순회하는 인덱스
 function solution(answers) {
   var arr1 = [1, 2, 3, 4, 5];
   var arr2 = [2, 1, 2, 3, 2, 4, 2, 5];
@@ -19,17 +19,12 @@ function solution(answers) {
     index++;
   }
   var answer = [];
-  var max_c = 0;
-  var tmp = [];
-  tmp.push(cnt1);
-  tmp.push(cnt2);
-  tmp.push(cnt3);
-  for (var i = 0; i < 3; i++) { // 최고점 찾기
-    if (max_c < tmp[i]) max_c = tmp[i];
-  }
-  for (var i = 0; i < 3; i++) { // 최고점을 맞힌 사람 찾기
+  var tmp = [cnt1, cnt2, cnt3];
+  const max_c = Math.max(cnt1, cnt2, cnt3); // 최고점찾기 -> Math.max() 사용
+  for (var i = 0; i < 3; i++) {
+    // 최고점을 맞힌 사람 찾기
     if (max_c === tmp[i]) answer.push(i + 1);
   }
-  console.log(answer);
+  //console.log(answer);
   return answer;
 }
