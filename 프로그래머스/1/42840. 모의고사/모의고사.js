@@ -1,30 +1,27 @@
-var index = 0; // arr1,2,3 을 순회하는 인덱스
 function solution(answers) {
-  var arr1 = [1, 2, 3, 4, 5];
-  var arr2 = [2, 1, 2, 3, 2, 4, 2, 5];
-  var arr3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5];
-  var cnt1 = 0;
-  var cnt2 = 0;
-  var cnt3 = 0;
-  for (var i = 0; i < answers.length; i++) {
-    if (answers[i] === arr1[index % 5]) {
-      cnt1++;
+    // 수포자들의 패턴
+    const patterns = [
+      [1,2,3,4,5],
+      [2,1,2,3,2,4,2,5],
+      [3,3,1,1,2,2,4,4,5,5]
+    ]
+    // 수포자들의 점수를 저장할 배열
+    const score = [0,0,0]
+    // 각 수포자의 패턴과 정답이 얼마나 일치하는지 확인
+    for(const [i,answer] of answers.entries()){
+      for(const [j,pattern] of patterns.entries()){
+          if(answer === pattern[i % pattern.length]){
+              score[j]++
+          }
+      }
     }
-    if (answers[i] === arr2[index % 8]) {
-      cnt2++;
+    const maxScore = Math.max(...score) // 가장 높은 점수 저장
+    // 가장 높은 점수를 받은 수포자들의 번호를 찾아서 배열에 담음
+    const maxPerson = []    
+    for(let i=0 ; i<3 ; i++){
+        if(score[i] === maxScore){
+            maxPerson.push(i+1)
+        }
     }
-    if (answers[i] === arr3[index % 10]) {
-      cnt3++;
-    }
-    index++;
-  }
-  var answer = [];
-  var tmp = [cnt1, cnt2, cnt3];
-  const max_c = Math.max(cnt1, cnt2, cnt3); // 최고점찾기 -> Math.max() 사용
-  for (var i = 0; i < 3; i++) {
-    // 최고점을 맞힌 사람 찾기
-    if (max_c === tmp[i]) answer.push(i + 1);
-  }
-  //console.log(answer);
-  return answer;
+    return maxPerson.sort((a,b)=>a-b);  // 오름차순 정렬한 배열 반환
 }
