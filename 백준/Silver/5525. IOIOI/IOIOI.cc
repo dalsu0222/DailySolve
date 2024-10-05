@@ -17,25 +17,16 @@ int main()
 	// Pn = n+1개의 I와 n개의 O
 	
 	for (int i = 0; i < m; i++) {
-		int cntI = 0;	int cntO = 0;
-		bool isChecking = false;
-		char now = s[i];
-		if (now == 'O')
-			continue;
-
-		// now == 'I'
-		cntI++;
-		for (int j = i + 1; j <= i + n * 2; j++) {
-			if (s[j - 1] == 'I' && s[j] == 'O') {	// I 직후 O가 나오는 경우
-				cntO++;
+		int cnt = 0;	// 처음 I 뒤의 'OI' 개수
+		if (s[i] == 'O') continue;
+		// s[i] == 'I'
+		while (s[i + 1] == 'O' && s[i + 2] == 'I') {
+			cnt++;
+			if (cnt == n) {
+				result++;
+				cnt--;	// i+=2로 뛰어넘을걸 고려하여, 앞에있던 'OI' 제외시켜줌
 			}
-			else if (s[j - 1] == 'O' && s[j] == 'I') {	// O 직후 I가 나오는 경우
-				cntI++;
-			}
-			else { break; }
-		}
-		if (cntI == n + 1 && cntO == n) {
-			result++;
+			i += 2;
 		}
 
 	}
