@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <string>
 
 using namespace std;
 int n, k;
@@ -14,7 +13,6 @@ int main()
 
 	cin >> n >> k;
 	vector<int> v(n);
-	vector<bool> in(n, true);
 	for (int i = 0; i < n; i++) {
 		cin >> v[i];
 	}
