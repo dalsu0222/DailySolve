@@ -1,89 +1,70 @@
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include <string>
-#include <algorithm>
-#include <deque>
+#include<iostream>
+#include<queue>
+#include<algorithm>
 
 using namespace std;
-int N;
-vector<long long> A;
-int oper[4];	// 덧셈, 뺄셈, 곱셈, 나눗셈 개수 순
-vector<int> oper2;	// 연산자 일렬로 저장
-long long min_r = 1000000001, max_r = -1000000001;	// 초기화 값 수정
-int bt[12];	// 자리별로 연산자 type 저장 , type 0 :덧셈, 1:뺄셈, 2:곱셈, 3:나눗셈
-bool visited[10];
 
-/*
-아이디어 : 백트래킹 이용
-0. 입력받은 연산자 타입을 일렬로(1d) 정렬하기 위해 벡터로 옮겨담기
-1. bt 배열의 N-1개 자리에 자리(x)별로 연산자 저장
-2. 연산자 자리가 꽉차면(x==N-1), 앞에서부터 계산수행
-3. 계산 수행한 결괏값을 가지고 최대 및 최솟값 갱신
-*/
+int n;
+int A[101];
+int oper[4];
+int arr[12];
 
-void calc(int x) {
-	if (x == N - 1) {
-		long long result = A[0];
-		for (int i = 0; i < N - 1; i++) {
-			int type = bt[i];
-			if (bt[i] == 0) {
-				result += A[i + 1];
-			}
-			else if (bt[i] == 1) {
-				result -= A[i + 1];
-			}
-			else if (bt[i] == 2) {
-				result *= A[i + 1];
-			}
-			else if (bt[i] == 3) {
-				result /= A[i + 1];
-			}
-		}
-		if (result < min_r) {	// 최솟값 갱신
-			min_r = result;
-		}
-		if (result > max_r) {	// 최댓값 갱신
-			max_r = result;
-		}
-	}
-	else {	// N-1 = oper2.size()
-		for (int i = 0; i < N - 1; i++) {
-			if (!visited[i]) {		// 연산자 중복 허용 X
-				visited[i] = true;
-				bt[x] = oper2[i];
-				calc(x + 1);
-				visited[i] = false;	// 백트래킹
-			}
-			
-		}
-	}
+long long max_t = -1000000001;
+long long min_t = 1000000001;
 
+void dfs(int cnt) {
+    if (cnt == n - 1) {
+        long long total = A[0];
+        for (int i = 0; i < n - 1; i++) {
+            switch (arr[i]) {
+                case 0: 
+                    total += A[i + 1];
+                    break;
+                case 1:
+                    total -= A[i + 1];
+                    break;
+                case 2:
+                    total *= A[i + 1];
+                    break;
+                case 3:
+                    total /= A[i + 1];
+                    break;
+            }
+        }
+        if (total > max_t) {
+            max_t = total;
+        }
+        if (total < min_t) {
+            min_t = total;
+        }
+
+        return;
+    }
+    for (int i = 0; i < 4; i++) {
+        if (oper[i] <= 0) {
+            continue;
+        }
+        arr[cnt] = i;   // 연산자 기입
+        oper[i]--;  // 연산자 사용
+        dfs(cnt + 1);
+        oper[i]++;  // 사용 해제
+        arr[cnt] = 0;   // 연산자 기입 해제
+    }
 }
 
-int main() {
+int main()
+{
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cin >> A[i];
+    }
+    for (int i = 0; i < 4; i++) {
+        cin >> oper[i];
+    }
 
-	ios::sync_with_stdio(0);
-	cin.tie(0);	cout.tie(0);
-	
-	cin >> N;
-	long long tmp;
-	for (int i = 0; i < N; i++) {
-		cin >> tmp;
-		A.push_back(tmp);
-	}
-	for (int i = 0; i < 4; i++) {
-		cin >> oper[i];
-	}
-	for (int i = 0; i < 4; i++) {
-		while (oper[i] != 0) {
-			oper2.push_back(i);
-			oper[i]--;
-		}
-	}
+    dfs(0);
 
-	calc(0);
-	cout << max_r << "\n" << min_r;
+    cout << max_t << "\n" << min_t;
 
-	return 0;
+    return 0;
 }
