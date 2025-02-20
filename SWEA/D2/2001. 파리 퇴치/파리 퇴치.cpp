@@ -1,51 +1,40 @@
-#include<iostream>
+import java.io.*;
+import java.util.StringTokenizer;
 
-using namespace std;
-
-int main(int argc, char** argv)
-{
-	int tc;
-	int T,n,m;
-
-	cin>>T;
-
-	for(tc = 1; tc <= T; ++tc)
-	{
-		cin >> n >> m;
-        int map[n][n];
-		for(int i=0 ; i<n ; i++){
-        	for(int j=0 ; j<n ; j++){
-            	cin >> map[i][j];
-            }
-        }
-        
-        int result = 0;
-        int max_r = 0;
-		for(int i=0 ; i<=n-m ; i++){            
-        	for(int j=0 ; j<=n-m ; j++){
-                result = 0;		// 초기화
-                int cnt_y = 0;	int cnt_x = 0;
-        		int nx = j +cnt_x;	// nx, ny : 더하기를 수행할 다음 위치
-                int ny= i + cnt_y;
-                // 파리채 크기만큼 오른쪽, 아래쪽으로 이동하며 더하기 수행
-                while(cnt_y < m){	// 아래쪽으로 세로이동
-                    ny= i + cnt_y;
-                    cnt_x = 0;
-                  	while(cnt_x < m){	// 오른쪽으로 가로 이동
-                        nx = j +cnt_x;
-                        result+=map[ny][nx];
-                        cnt_x++;
-               	 	}
-                    cnt_y++;
-                }
-
-                // 최댓값 확인
-                if(max_r < result){
-                	max_r = result;
-                }
-       		}
-        }
-		cout << "#" << tc << " " << max_r << "\n";
+public class Solution{
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int t = Integer.parseInt(br.readLine());
+		for(int tc=1 ; tc<=t ; tc++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			int n = Integer.parseInt(st.nextToken());
+			int m = Integer.parseInt(st.nextToken());
+			
+			// n x n 사이즈 배열 입력받기
+			int[][] arr = new int[n][n];
+			for(int i=0 ; i<n ; i++) {
+				 st = new StringTokenizer(br.readLine());
+				 for(int j=0 ; j<n ; j++) {
+					 arr[i][j] = Integer.parseInt(st.nextToken());
+				 }
+			}
+			
+			// m 크기의 영역중 합이 가장 큰 영역 찾기
+			int max_total = 0;
+			for(int i=0 ; i<= n-m ; i++) {
+				for(int j=0 ; j<= n-m ; j++) {
+					int total = 0;
+					for(int k=0 ; k<m ; k++) {
+						for(int r=0 ; r<m ; r++) {
+							total += arr[i+k][j+r];
+						}
+					}
+					max_total = Math.max(max_total, total);
+				}
+			}
+			
+			System.out.println("#"+ tc + " " + max_total);
+		}
 	}
-	return 0;
+
 }
