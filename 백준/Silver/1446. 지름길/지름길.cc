@@ -1,38 +1,52 @@
 #include <iostream>
-#include <queue>
 #include <vector>
-#include <string>
+#include <queue>
 #include <algorithm>
 
 using namespace std;
-int N, D;
-int dp[10001];
-vector<pair<int, int>> v[10001];
-int s, e, l;
 
-int main(void)
-{
-	ios::sync_with_stdio(0);
-	cin.tie(0); cout.tie(0);     // 시간초과방지
+int n, d;
 
-	cin >> N >> D;
-	for (int i = 0; i < N; i++) {
-		cin >> s >> e >> l;
-		if (e <= D && e - s > l) {
-			v[e].push_back(make_pair(s, l));	// end 지점에 (시작지점,비용) 저장
-		}
-	}
+struct ShortCut {
+    int start;
+    int end;
+    int dist;
+};
 
-	dp[0] = 0;
-	for (int i = 1; i <= D; i++) {
-		// 초기화와 갱신을 동시에 진행
-		dp[i] = dp[i - 1] + 1;
-		for (int j = 0; j < v[i].size(); j++) {	// i까지의 지름길(v[i])이 존재한다면
-			dp[i] = min(dp[i], dp[v[i][j].first] + v[i][j].second);	// 시작지점까지 비용+지름길 비용이 기존비용보다 적다면 갱신
-		}
-	}
-	
-	cout << dp[D];
+ShortCut s[12];
 
-	return 0;
+int main() {
+    cin.tie(NULL);
+    ios::sync_with_stdio(false);
+
+    cin >> n >> d;
+    int a, b, c;
+    for (int i = 0; i < n; i++) {
+        cin >> a >> b >> c;
+        s[i] = { a,b,c };
+    }
+
+    vector<int> dist(d + 1, 10001);
+    dist[0] = 0;    // 시작점 거리는 0
+
+    for (int i = 0; i <= d; i++) {
+        if (dist[i] == 10001)
+            continue;
+        
+        // 다음 1km 지점으로 가는 경우
+        if (i + 1 <= d) {
+            dist[i + 1] = min(dist[i + 1], dist[i] + 1);
+        }
+
+        // 지름길 사용하는 경우
+        for (int j = 0; j < n; j++) {
+            if (s[j].start == i && s[j].end <= d) {
+                dist[s[j].end] = min(dist[s[j].end], dist[i] + s[j].dist);
+            }
+        }
+    }
+
+    cout << dist[d] << endl;
+
+    return 0;
 }
