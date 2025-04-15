@@ -24,17 +24,17 @@ public class Main {
 		
 		makeTree(1,0,n-1);
 		
-		int a,b;	long c;
 		for(int i=0 ; i<m+k ; i++) {
 			st = new StringTokenizer(br.readLine());
-			a = Integer.parseInt(st.nextToken());
-			b = Integer.parseInt(st.nextToken());
-			c = Long.parseLong(st.nextToken());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
 			
 			if(a == 1) {
+				long c = Long.parseLong(st.nextToken());
 				update(1,0, n-1, b-1, c);
 			}else if(a == 2) {
-				sb.append(get(1, 0, n-1, b-1, (int)c-1)).append("\n");
+				int c = Integer.parseInt(st.nextToken());
+				sb.append(get(1, 0, n-1, b-1, c-1)).append("\n");
 			}
 		}
 		
