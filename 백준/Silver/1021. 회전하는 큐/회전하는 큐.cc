@@ -1,69 +1,50 @@
 #include <iostream>
-#include <vector>
-#include <cmath>
-#include <string>
-#include <algorithm>
 #include <deque>
-
 using namespace std;
-int N, M;
-deque<int> dq;
-int cnt_2, cnt_3;
+
+int n, m, result = 0;
+deque<int> q;
 
 int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);	cout.tie(0);
-	/* 
-		1. 1~N 까지 순서대로 저장되어있는 덱(deque) 생성
-		2. 뽑고자 하는 원소가 바로 맨 앞에 있는 원소라면, 바로 제거 후 다음 원소찾기 진행
-		3. 뽑고자 하는 원소가 덱의 앞/뒤 중에 어디에 가까운지 판별
-		4. 덱의 앞과 가깝다면, 2번연산 수행. 뒤와 가깝다면, 3번 연산 수행
-		5. 2번연산 수행횟수 + 3번연산 수행횟수 출력
-	*/
-	cin >> N >> M;
-	for (int i = 1; i <= N; i++) {	// 1.
-		dq.push_back(i);
-	}
-	int tmp;
-	for (int i = 0; i < M; i++) {
-		cin >> tmp;
-		int value = dq.front();
-		if (value == tmp) {	// 2.
-			dq.pop_front();
-			continue;
-		}
+    cin >> n >> m;
+    // 1. 큐 초기화
+    for (int i = 1; i <= n; i++) {
+        q.push_back(i);
+    }
 
-		// 3. 
-		int cnt = 0;	// 찾고자 하는 원소 앞에 몇개의 원소가 더 있는지 체크하는 변수
-		for (int j = 0; j < dq.size(); j++) {	
-			if (dq[j] == tmp)
-				break;
-			cnt++;
-		}
-		int mode = 0;	// mode가 0일경우 앞에서부터 시작함을 의미
-		if (cnt > dq.size() / 2 || (cnt == dq.size() / 2 && (dq.size()% 2 != 1)) ) {	// 덱의 뒤쪽과 더 가까운 경우, 3번연산을 위한 세팅
-			mode = 1;
-			cnt = dq.size() - cnt;
-		}
-		while (cnt > 0) {
-			if (mode == 0) {	// 3.
-				int tmp2 = dq.front();
-				dq.pop_front();
-				dq.push_back(tmp2);
-				cnt_2++;
-			}
-			else {	// 4.
-				int tmp2 = dq.back();
-				dq.pop_back();
-				dq.push_front(tmp2);
-				cnt_3++;
-			}
+    for (int i = 0; i < m; i++) {
+        int input;
+        cin >> input;
 
-			cnt--;
-		}
-		dq.pop_front();		// 1번연산
-	}
-	cout << cnt_2 + cnt_3; // 5.
+        int idx = 0;
+        // 타겟의 현재 인덱스를 찾음
+        for (int j = 0; j < q.size(); j++) {
+            if (q[j] == input) {
+                idx = j;
+                break;
+            }
+        }
 
-	return 0;
+        // 왼쪽이 더 가깝다면 왼쪽으로 이동
+        // 절반에서 왼쪽에 있으면 왼쪽으로 이동하는게 이득이다
+        if (idx <= q.size() / 2) {
+            while (q.front() != input) {
+                q.push_back(q.front());
+                q.pop_front();
+                result++;
+            }
+        } else {
+            while (q.front() != input) {
+                q.push_front(q.back());
+                q.pop_back();
+                result++;
+            }
+        }
+
+        // 타겟 제거
+        q.pop_front();
+    }
+
+    cout << result << '\n';
+    return 0;
 }
