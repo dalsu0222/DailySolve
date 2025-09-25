@@ -1,0 +1,9 @@
+select i.REST_ID as REST_ID, i.REST_NAME as REST_NAME,
+i.FOOD_TYPE as FOOD_TYPE, i.FAVORITES as FAVORITES,
+i.ADDRESS as ADDRESS, round(avg(r.REVIEW_SCORE),2) as SCORE
+from REST_REVIEW r
+join REST_INFO i on i.REST_ID = r.REST_ID
+where i.ADDRESS like '서울%'
+group by i.REST_ID, i.REST_NAME, i.FOOD_TYPE, i.FAVORITES, i.ADDRESS
+order by SCORE desc, FAVORITES desc
+;
