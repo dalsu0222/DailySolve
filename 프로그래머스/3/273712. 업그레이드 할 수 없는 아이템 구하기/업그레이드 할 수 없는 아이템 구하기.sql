@@ -6,5 +6,5 @@ where i.ITEM_ID not in (
     from ITEM_TREE
     where PARENT_ITEM_ID is NOT NULL
 )
-order by ITEM_ID desc
+order by i.ITEM_ID desc
 ;
