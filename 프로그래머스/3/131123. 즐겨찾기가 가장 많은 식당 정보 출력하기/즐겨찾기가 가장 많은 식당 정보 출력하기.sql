@@ -1,3 +1,5 @@
+# 가장 많은 좋아요 수가 유일한 수인걸까? 종류가 같은데 좋아요 수가 같으면?
+
 select r.FOOD_TYPE, r.REST_ID, r.REST_NAME, r.FAVORITES
 from REST_INFO r
 join(
