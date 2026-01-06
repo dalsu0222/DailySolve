@@ -1,10 +1,11 @@
-select p.CATEGORY, np.MAX_PRICE, p.PRODUCT_NAME
+# 각 행이 그 카테고리의 최대가격인가? 를 검사
+select p.CATEGORY, p.PRICE as 'MAX_PRICE', p.PRODUCT_NAME
 from FOOD_PRODUCT p
-join (
-    select CATEGORY, MAX(PRICE) as MAX_PRICE
+where p.CATEGORY in ('과자','국','김치','식용유')
+and p.PRICE = (
+    select MAX(PRICE)
     from FOOD_PRODUCT
-    where CATEGORY in ('과자','국','김치','식용유')
-    group by CATEGORY
-) np on np.CATEGORY = p.CATEGORY and np.MAX_PRICE = p.PRICE
-order by np.MAX_PRICE desc
+    where CATEGORY = p.CATEGORY
+)
+order by MAX_PRICE desc
 ;
