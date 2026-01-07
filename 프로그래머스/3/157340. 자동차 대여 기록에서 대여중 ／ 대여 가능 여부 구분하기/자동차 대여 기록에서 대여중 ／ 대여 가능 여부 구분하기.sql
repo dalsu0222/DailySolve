@@ -1,6 +1,6 @@
 select CAR_ID, 
 case 
-    when SUM(case when '2022-10-16' between START_DATE and END_DATE then 1 else 0 end ) > 0 
+    when max('2022-10-16' >= START_DATE and END_DATE >= '2022-10-16') = 1
     then '대여중'
     else '대여 가능'
 end as AVAILABILITY
