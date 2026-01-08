@@ -1,10 +1,6 @@
-SELECT 
-    COUNT(*) AS FISH_COUNT,
-    # null은 10으로 처리
-    MAX(IFNULL(LENGTH, 10)) AS MAX_LENGTH,
-    FISH_TYPE
-FROM FISH_INFO
-GROUP BY FISH_TYPE
-# 그룹 이후 조건은 having!!
-HAVING AVG(IFNULL(LENGTH, 10)) >= 33
-ORDER BY FISH_TYPE;
+select count(*) as 'FISH_COUNT', max(LENGTH) as 'MAX_LENGTH', FISH_TYPE
+from FISH_INFO
+group by FISH_TYPE
+having avg(ifnull(LENGTH,10)) >= 33
+order by FISH_TYPE
+;
